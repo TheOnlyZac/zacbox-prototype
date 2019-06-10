@@ -4,7 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const Player = require('./Player.js');
 
-app.use(express.static(__dirname + "/wordspud-app"));
+app.use(express.static(__dirname + "/public"));
 
 /* Create object to store all joining players */
 var players = {};
@@ -52,7 +52,7 @@ io.on('connection', function(socket) {
 
 /* Start listening on the provided port */
 //var port = Math.floor(Math.random() * (9999 - 1000)) + 1000;
-var port = 3000;
+var port = 8888;
 http.listen(port, function() {
     console.log("listening on *:" + port);
 });
