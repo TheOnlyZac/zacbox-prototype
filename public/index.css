@@ -55,9 +55,16 @@ h1 {
     margin: 0;
     padding: 5px;
     width: 100%;
-    text-align: center;
 
     color: white;
+    text-align: center;
+}
+
+p {
+    width: 100%;
+
+    color: white;
+    text-align: center;
 }
 
 input {
@@ -65,7 +72,7 @@ input {
     padding-left: 10px;
     padding-right: 10px;
 
-    width: 85%;
+    width: 80%;
     height: 30px;
 
     font-size: 25px;

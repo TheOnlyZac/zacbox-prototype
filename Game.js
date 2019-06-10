@@ -11,7 +11,7 @@ class WordSpudGame {
 
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
-        /* Add the new player to the lobby, and inc numPlayers */
+        /* Add the new player to the lobby, and increment numPlayers */
         this._players[id] = new Player(id, name);
         this._numPlayers++;
         console.log("user %s initialized as %s", id, this.getName(id));
@@ -53,6 +53,10 @@ class WordSpudGame {
 
     getName(id) {
         return this._players[id].name;
+    }
+
+    getPlayer(id) {
+        return this._players[id];
     }
 
     /* Return an array of playerIds */

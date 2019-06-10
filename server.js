@@ -23,14 +23,23 @@ io.on('connection', function(socket) {
         game.removePlayer(pid);
     });
 
-
     /* Change the name of a player */
-    socket.on('set name', function(data) {
-        game.nameChange(pid, data.newName);
+    socket.on('set name', function(newName) {
+        game.nameChange(pid, newName);
 
         /* Tell that player they're all set, wait for game start */
-        socket.emit('readyStart');
+        socket.emit('setPhase', 1);
+
+        /* Check if everyone is ready! */
+        if (game.numPlayers == 2 && game.isReady) {
+            socket.emit('setPhase', 2);
+        }
     });
+
+    socket.on('check vip', function() {
+        if (game.getPlayer(pid).isVip) socket.emit('vip status', true);
+        else socket.emit('vip status', false);
+    })
 });
 
 /* Start listening on the provided port */
