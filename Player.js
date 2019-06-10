@@ -4,6 +4,7 @@ class Player {
         this._name = name;
         this._id = id;
         //this._isVip = isVip;
+        this._score = 0;
     }
 
     get name() { return this._name; }
@@ -13,6 +14,9 @@ class Player {
 
     //get isVip() { return this._isVip; }
     //set isVip(newVip) { this._isVip = newVip; }
+
+    get score() { return this._score; }
+    set score(newScore) { this._score = newScore; }
 }
 
 module.exports = Player;

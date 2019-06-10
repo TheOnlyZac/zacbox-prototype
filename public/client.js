@@ -4,6 +4,7 @@ $(function() {
     console.log("client initialized");
     var socket = io();
     setPhase(0);
+    $("#name").focus();
 
     /* * * * SERVER/CLIENT SETUP * * * */
 
@@ -16,8 +17,12 @@ $(function() {
         console.log("Received: add player | " + data.id);
         game.addPlayer(data.id, data.name);
 
-        /* Add name to the Phase 1 players table */
-        $('#players').append("<tr id=" + data.id + "><td>" + data.name + "</td></tr>");
+        /* Add name to the Lobby players table */
+        $('#lobby-list').append("<tr class=" + data.id + "><td>" + data.name + "</td></tr>");
+
+        /* Add name to the In-game players table */
+        $('#ingame-list').append("<td class=" + data.id + ">" + data.name + "</td>");
+ 
     });
     
     socket.on('remove player', function(id) {
@@ -25,7 +30,7 @@ $(function() {
         game.removePlayer(id);
 
         /* Remove name from the Phase 1 players table */
-        $('#' + id).remove();
+        $('.' + id).remove();
 
     });
 
@@ -60,7 +65,7 @@ $(function() {
         /* Send the new name to the server */
         var newName = $('#name').val();
 
-        newName.replace(/[^\w\s]/g,'');
+        newName.replace(/[^\w]/g,'');
         if (newName.length === 0 || newName.match(/^ *$/) !== null)
             return;
 
@@ -81,13 +86,15 @@ $(function() {
             console.log("Error starting game: Not VIP");
             return;
         }
-        
+
+        console.log("Sending start game message!");
+        socket.emit('start game');
     });
 
 });
 
 function setPhase(phaseNum) {
-    for (var i = 0; i <= 1; i++)
+    for (var i = 0; i <= 2; i++)
         $('#phase' + i).hide();
     
     $('#phase' + phaseNum).show();

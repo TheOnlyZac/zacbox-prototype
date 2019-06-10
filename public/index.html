@@ -13,9 +13,11 @@
     </head>
     <body>
         <div id="header">
-            <h1 class="header-title">ZACBOX</h1>
+            <h1>ZACBOX</h1>
         </div>
+
         <div id="content">
+            <!-- Disconnected Banner -->
             <div id="dc-banner">
                 <h1>Disconnected</h1>
                 <h3>Please refresh</h3>
@@ -34,8 +36,9 @@
             <div id="phase1">
                 <p>Waiting for all players to be ready...</p>
 
-                <table id="players-list">
-                    <tbody id="players">
+                <!-- LOBBY LIST OF PLAYERS -->
+                <table id="lobby-list" class="players-list">
+                    <tbody class="players">
                         <!-- <tr><td>hello</td></tr>
                         <tr><td>world</td></tr> -->
                     </tbody>
@@ -49,6 +52,33 @@
 
             <!-- PHASE 2: Game is starting! -->
             <div id="phase2">
+                <h2 id="word">placeholder</h2>
+                <h3 id="spud">
+                    <span>the</span>
+                    <span>quick</span>
+                    <span>brown</span>
+                    <span>fox</span>
+                    <span>jumps</span>
+                    <span>over</span>
+                    <span>the</span>
+                    <span>lazy</span>
+                    <span>dog</span>
+                </h3>
+
+                <!--  IN-GAME LIST OF PLAYERS -->
+                <table id="ingame-list" class="players-list">
+                    <tbody class="players">
+                        <tr>
+
+                        </tr>
+                        <tr>
+                            <!-- <td>Wyatt</td>
+                            <td>Lucy</td>
+                            <td>Rufus</td>
+                            <td>Jiya</td> -->
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
             

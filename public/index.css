@@ -1,3 +1,18 @@
+/* * * * * * * * *
+Color Scheme: Blue
+Background: #348AED //picton blue
+Button-bg: #296eb4
+Button-border: #01295f
+Footer: #202020
+
+Color Scheme: Gray
+Background: #202020
+Button-bg: #296eb4
+Button-border: #01295f
+
+
+/* * * Generic Style * * */
+
 html {
     margin: 0;
     padding: 0;
@@ -15,12 +30,16 @@ body {
 
     height: 100%;
 
-    background-color: #348AED /* picton blue */;
+    background-color: #202020 /* picton blue */;
 }
 
 body * {
+    color: white;
     font-family: Arial, sans-serif;
+    text-align: center;
 }
+
+/* * * Header/Content/Footer * * */
 
 #header {
     height: 50px;
@@ -66,7 +85,8 @@ body * {
 #footer {
     display: flex;
     height: 25px;
-    background-color: #202020;
+    background-color: black;;
+    border-top: 1px solid white;
 }
 
 .copyright {
@@ -87,17 +107,15 @@ h1, h2, h3 {
     margin: 0;
     padding: 5px;
     width: 100%;
-
-    color: white;
-    text-align: center;
 }
 
 p {
     width: 100%;
 
-    color: white;
     text-align: center;
 }
+
+/* * * Lobby UI * * */
 
 input {
     margin-top: 10px;
@@ -107,11 +125,12 @@ input {
     width: 80%;
     height: 30px;
 
+    color: black;
     font-size: 25px;
-
+    
     border-radius: 20px 0px 20px 0px;
     border-style: groove;
-    border-color: #01295f
+    border-color: black;
 }
 
 button {
@@ -120,8 +139,7 @@ button {
     width: 200px;
     height: 50px;
 
-    color: white;
-    background-color: #296eb4;
+    background-color: #e67e00;
 
     font-size: 20px;
     font-weight: bold;
@@ -130,30 +148,64 @@ button {
 
     border-radius: 20px 0px 20px 0px;
     border-style: groove;
-    border-color: #01295f
+    border-color: black;
 }
 
-#players-list tbody {
+#lobby-list tbody {
     width: 300px;
 }
 
-#players-list tbody :first-child {
+#lobby-list tbody :first-child {
     border-top-left-radius: 20px;
 }
 
-#players-list tbody :last-child {
+#lobby-list tbody :last-child {
     border-bottom-right-radius: 20px;
 }
 
-#players-list tr {
+#lobby-list tr {
     margin: 2px;
     padding: 5px;
 
-    color: white;
     background-color: rgba(255, 255, 255, 0.25);
 
     font-size: 15px;
-    text-align: center;
 
     /*border: 2px groove 212922;*/
+}
+
+.players {
+    margin: 0;
+    padding: 0;
+}
+
+/* * * Actual Game UI * * */
+
+#word {
+    width: 100%;
+
+    font-size: 30px;
+}
+
+#spud * {
+    display: inline !important;
+}
+
+#ingame-list {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    
+    width: 100%;
+
+}
+
+#ingame-list tbody {
+    margin: 0;
+    padding: 0;
+}
+
+#ingame-list td {
+    flex-grow: 1;
+    width: auto;
 }
