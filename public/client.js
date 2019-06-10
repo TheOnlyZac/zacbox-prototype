@@ -4,6 +4,11 @@ $(function() {
     console.log("client initialized");
     var socket = io();
 
+    socket.on('disconnect', function() {
+        console.log('socket disconnected');
+        $('#dc-banner').css('visibility', 'visible');
+    });
+
     setPhase(0);
 
     /* When nameForm is submitted (new name to be sent to server) */
@@ -22,7 +27,7 @@ $(function() {
     });
 
     /* Server trigger for new Phase to start */
-    socket.on('setPhase', function(phaseNum) {
+    socket.on('set phase', function(phaseNum) {
         console.log("Received: setPhase | " + phaseNum);
         setPhase(phaseNum);
     });
@@ -43,6 +48,18 @@ $(function() {
     socket.on('add player', function(data) {
         console.log("Received: add player | " + data.id);
         game.addPlayer(data.id, data.name);
+
+        /* Add name to the Phase 1 players table */
+        $('#players').append("<tr id=" + data.id + "><td>" + data.name + "</td></tr>");
+    });
+    
+    socket.on('remove player', function(id) {
+        console.log("Received: remove player | " + id);
+        game.removePlayer(id);
+
+        /* Remove name from the Phase 1 players table */
+        $('#' + id).remove();
+
     });
 
 });

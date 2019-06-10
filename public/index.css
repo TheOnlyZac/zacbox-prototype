@@ -1,4 +1,11 @@
-html, body {
+html {
+    margin: 0;
+    padding: 0;
+    
+    height: 100%;
+}
+
+body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -29,6 +36,33 @@ body * {
     padding: 10px;
 }
 
+#content * {
+    /* auto-center everything */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#dc-banner {
+    visibility: hidden;
+
+    margin-top: 33%;
+    left: 0; right: 0;
+    padding-top: 15px;
+    position: absolute;
+
+    width: 100%;
+    height: 100px;
+
+    background-color: #ae2922;
+
+    border-top: 2px solid #ef7674;
+    border-bottom: 2px solid #ef7674;
+    box-shadow: 0px 0px 1000px black;
+
+    transition: opacity 0.2s;
+}
+
 #footer {
     height: 25px;
     background-color: #202020;
@@ -44,14 +78,7 @@ body * {
     font-weight: 200;
 }
 
-#content * {
-    /* auto-center everything */
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-h1 {
+h1, h2, h3 {
     margin: 0;
     padding: 5px;
     width: 100%;
@@ -82,7 +109,7 @@ input {
     border-color: #01295f
 }
 
-.submit-btn {
+button {
     margin-top: 10px;
 
     width: 200px;
@@ -99,4 +126,29 @@ input {
     border-radius: 20px 0px 20px 0px;
     border-style: groove;
     border-color: #01295f
+}
+
+#players-list tbody {
+    width: 300px;
+}
+
+#players-list tbody :first-child {
+    border-top-left-radius: 20px;
+}
+
+#players-list tbody :last-child {
+    border-bottom-right-radius: 20px;
+}
+
+#players-list tr {
+    margin: 2px;
+    padding: 5px;
+
+    color: white;
+    background-color: rgba(255, 255, 255, 0.25);
+
+    font-size: 15px;
+    text-align: center;
+
+    /*border: 2px groove 212922;*/
 }

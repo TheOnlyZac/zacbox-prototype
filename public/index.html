@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Zacbox Quiplash v0.0.1</title>
+        <title>Zacbox Games v0.0.2</title>
         <meta charset="utf8"/>
         <link rel="stylesheet" type="text/css" href="index.css"/>
         <!-- socket.io --><script src="/socket.io/socket.io.js"></script>
@@ -15,6 +15,10 @@
             <h1 class="header-title">ZACBOX</h1>
         </div>
         <div id="content">
+            <div id="dc-banner">
+                <h1>Disconnected</h1>
+                <h3>Please refresh</h3>
+            </div>
 
             <!-- PHASE 0: Set Player Name -->
             <div id="phase0">
@@ -23,15 +27,19 @@
                     <input id="name" maxlength="15" autocomplete="off"/></br>
                     <button class="submit-btn">Submit</button>
                 </form>
-
-                <!-- <form class="vipOnly">
-                    <button class="start-btn">Start Game</button>
-                </form> -->
             </div>
 
             <!-- PHASE 1: Waiting for game to start -->
             <div id="phase1">
                 <p>Waiting for all players to be ready...</p>
+
+                <table id="players-list">
+                    <tbody id="players">
+                        <!-- <tr><td>hello</td></tr>
+                        <tr><td>world</td></tr> -->
+                    </tbody>
+                </table>
+                
                 <p class="vip-only">You are the VIP!</p>
                 <button class="vip-only submit-btn">Start Game</button>
             </div>

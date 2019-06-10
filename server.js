@@ -9,16 +9,25 @@ const Game = require('./Game.js');
 
 app.use(express.static(__dirname + "/public"));
 
-/* Create new WordSpugGame instance */
+/* Create new WordSpudGame instance */
 game = new Game();
 
 io.on('connection', function(socket) {
     /* Get ID of new connected client and send it to them */
     var pid = socket.id;
     socket.emit('you are', pid)
+    socket.emit('set phase', 0);
 
-    /* Add the new Player to the lobby */
-    game.addPlayer(pid)
+    /* Send all the existing players to the new player */
+    var oldPlayers = game.playerIds;
+    //console.log("oldPlayers: " + oldPlayers);
+    for (var i = 0; i < oldPlayers.length; i++) {
+        console.log(game.getPlayer(oldPlayers[i]));
+        socket.emit('add player', {
+            "id": game.getPlayer(oldPlayers[i]).id,
+            "name": game.getPlayer(oldPlayers[i]).name
+        });
+    }
 
     /* Send the current VIP id to ALL players */
     io.sockets.emit('set vip', game.vip);
@@ -28,14 +37,17 @@ io.on('connection', function(socket) {
         /* Remove the player from the Game lobby */
         game.removePlayer(pid);
 
+        /* Tell all clients to remove the disconnected player */
+        io.sockets.emit('remove player', pid)
+
         /* Send the current VIP id to ALL players */
         io.sockets.emit('set vip', game.vip);
     });
 
     /* Change the name of a player */
     socket.on('set name', function(newName) {
-        /* Change the Player name in the Game lobby */
-        game.nameChange(pid, newName);
+        /* Add the new Player to the lobby with their proper name */
+        game.addPlayer(pid, newName)
 
         /* Send the new player to ALL clients */
         io.sockets.emit('add player', {
@@ -43,13 +55,16 @@ io.on('connection', function(socket) {
             "name": newName
         });
 
+        /* Send the current VIP id to ALL players */
+        io.sockets.emit('set vip', game.vip);
+
         /* Tell that player they're all set, wait for game start */
-        socket.emit('setPhase', 1);
+        socket.emit('set phase', 1);
 
         /* Check if everyone is ready */
         if (game.numPlayers == 2 && game.isReady) {
             /* All ready, set phase to game start! */
-            socket.emit('setPhase', 2);
+            socket.emit('set phase', 2);
         }
     });
 
