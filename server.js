@@ -13,11 +13,31 @@ io.on('connection', function(socket) {
     var pid = socket.id; // Get id of new connected client
     players[pid] = new Player; // Create a new Player in the players obj
     console.log("user %s initialized", pid);
+    if (Object.keys(players).length == 1) {
+        console.log("new player is first, setting VIP");
+        players[pid].isVip = true;
+    }
 
     /* On client disconnected */
     socket.on('disconnect', function() {
         console.log('user %s disconnected', pid);
-        delete players[pid]; // Delete player from players obj
+
+        /* check if player leaving was VIP */
+        var needNewVip = false;
+        if (players[pid].isVip) {
+            needNewVip = true;
+        }
+
+        /* delete player from players obj */
+        delete players[pid];
+
+        /* check if last player, or if need new VIP */
+        if (Object.keys(players).length == 0) {
+            console.log("!! leaving player was the last player");
+        } else if (needNewVip) {
+            console.log("! leaving player was VIP, setting new one")
+            players[Object.keys(players)[0]].isVip = true;
+        }
     });
 
     socket.on('set name', function(data) {
