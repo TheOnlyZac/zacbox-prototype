@@ -43,7 +43,11 @@ io.on('connection', function(socket) {
 
     socket.on('set name', function(data) {
         console.log("setting new name for %s: %s", pid, data.newName);
+        /* Set the new name for the Player in the players obj */
         players[pid].name = data.newName;
+
+        /* Tell that player they're all set, wait for game start */
+        socket.emit('readyStart');
     });
 });
 

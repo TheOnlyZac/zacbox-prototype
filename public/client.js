@@ -3,8 +3,8 @@ $(function() {
 
     var socket = io();
 
-    socket.on("setPhase", function(data) {
-
+    socket.on("readyStart", function(data) {
+        console.log("Ready for game to start!");
     })
 
     /* When nameForm is submitted (new name to be sent to server) */
