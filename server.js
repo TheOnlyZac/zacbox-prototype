@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const Player = require('./Player-server.js');
+const Player = require('./Player.js');
 
 app.use(express.static(__dirname + "/wordspud-app"));
 
@@ -11,6 +11,10 @@ var players = {};
 
 io.on('connection', function(socket) {
     var pid = socket.id; // Get id of new connected client
+    if (Object.keys(players).length == 0) {
+        console.log("CONNECTION IS HOST!");
+        
+    }
     players[pid] = new Player; // Create a new Player in the players obj
     console.log("user %s initialized", pid);
     if (Object.keys(players).length == 1) {
