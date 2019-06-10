@@ -4,7 +4,7 @@
         <title>Zacbox Games v0.0.2</title>
         <meta charset="utf8"/><meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="index.css"/>
-        
+
         <!-- socket.io --><script src="/socket.io/socket.io.js"></script>
         <!-- jquery --><script src="https:/code.jquery.com/jquery-1.11.1.js"></script>
         <!-- Player class --><script src="./Player-local.js"></script>        
@@ -41,8 +41,10 @@
                     </tbody>
                 </table>
                 
-                <p class="vip-only">You are the VIP!</p>
-                <button class="vip-only submit-btn">Start Game</button>
+                <form id="startgameform" class="vip-only">
+                    <p>You are the VIP!</p>
+                    <button class="submit-btn">Start Game</button>
+                </form>
             </div>
 
             <!-- PHASE 2: Game is starting! -->

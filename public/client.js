@@ -3,27 +3,13 @@ game = new WordSpudGame();
 $(function() {
     console.log("client initialized");
     var socket = io();
+    setPhase(0);
+
+    /* * * * SERVER/CLIENT SETUP * * * */
 
     socket.on('disconnect', function() {
         console.log('socket disconnected');
         $('#dc-banner').css('visibility', 'visible');
-    });
-
-    setPhase(0);
-
-    /* When nameForm is submitted (new name to be sent to server) */
-    $('#nameform').submit(function(e) {
-        /* Prevent page reloading */
-        e.preventDefault();
-
-        /* Send the new name to the server */
-        var newName = $('#name').val();
-        socket.emit('log in', newName);
-
-        /* Clear the textbox and set header text */
-        $('.header-title').text(newName);
-        $('#name').val('');
-        return false;
     });
 
     socket.on('add player', function(data) {
@@ -62,6 +48,40 @@ $(function() {
 
         /* Correct UI in case player just became VIP */
         checkVipUi();
+    });
+
+    /* * * * GAME TRIGGERS * * * */
+
+    /* Player set name and log in */
+    $('#nameform').submit(function(e) {
+        /* Prevent page reloading */
+        e.preventDefault();
+
+        /* Send the new name to the server */
+        var newName = $('#name').val();
+
+        newName.replace(/[^\w\s]/g,'');
+        if (newName.length === 0 || newName.match(/^ *$/) !== null)
+            return;
+
+        socket.emit('log in', newName);
+
+        /* Clear the textbox and set header text */
+        $('.header-title').text(newName);
+        $('#name').val('');
+        return false;
+    });
+
+    $('#startgameform').submit(function(e) {
+        /* Prevent page reloading */
+        e.preventDefault();
+
+        /* Client check for VIP status */
+        if (game.vip != game.me) {
+            console.log("Error starting game: Not VIP");
+            return;
+        }
+        
     });
 
 });

@@ -64,18 +64,23 @@ body * {
 }
 
 #footer {
+    display: flex;
     height: 25px;
     background-color: #202020;
 }
 
 .copyright {
-    margin: 0;
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
     padding: 0;
 
-    text-align: center;
-    color: white;
-    font-size: auto;
+    color: lightgray;
+    font-family: Lato, Arial, sans-serif;
+    font-size: 10px;
     font-weight: 200;
+    
+    text-align: center;
 }
 
 h1, h2, h3 {
