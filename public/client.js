@@ -18,31 +18,12 @@ $(function() {
 
         /* Send the new name to the server */
         var newName = $('#name').val();
-        socket.emit('set name', newName);
+        socket.emit('log in', newName);
 
         /* Clear the textbox and set header text */
         $('.header-title').text(newName);
         $('#name').val('');
         return false;
-    });
-
-    /* Server trigger for new Phase to start */
-    socket.on('set phase', function(phaseNum) {
-        console.log("Received: setPhase | " + phaseNum);
-        setPhase(phaseNum);
-    });
-
-    socket.on('you are', function(id) {
-        console.log("Received: you are | " + id);
-        game.me = id;
-    });
-
-    socket.on('set vip', function(id) {
-        console.log("Received: set vip | " + id);
-        game.vip = id;
-
-        /* Correct UI in case player just became VIP */
-        checkVipUi();
     });
 
     socket.on('add player', function(data) {
@@ -60,6 +41,27 @@ $(function() {
         /* Remove name from the Phase 1 players table */
         $('#' + id).remove();
 
+    });
+
+    /* On first connect the server will tell the client their ID */
+    socket.on('you are', function(id) {
+        console.log("Received: you are | " + id);
+        game.me = id;
+    });
+
+    /* Server trigger for new Phase to start */
+    socket.on('set phase', function(phaseNum) {
+        console.log("Received: setPhase | " + phaseNum);
+        setPhase(phaseNum);
+    });
+
+    /* Server will periodically send the VIP's ID in case it changes */
+    socket.on('set vip', function(id) {
+        console.log("Received: set vip | " + id);
+        game.vip = id;
+
+        /* Correct UI in case player just became VIP */
+        checkVipUi();
     });
 
 });

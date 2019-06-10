@@ -1,5 +1,4 @@
 const express = require('express');
-
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
@@ -44,8 +43,8 @@ io.on('connection', function(socket) {
         io.sockets.emit('set vip', game.vip);
     });
 
-    /* Change the name of a player */
-    socket.on('set name', function(newName) {
+    /* After player enters their name */
+    socket.on('log in', function(newName) {
         /* Add the new Player to the lobby with their proper name */
         game.addPlayer(pid, newName)
 
