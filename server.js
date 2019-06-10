@@ -3,7 +3,9 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+
 const Player = require('./Player.js');
+const Game = require('./Loby.js');
 
 app.use(express.static(__dirname + "/public"));
 
