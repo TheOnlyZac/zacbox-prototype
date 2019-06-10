@@ -4,10 +4,12 @@ class WordSpudGame {
     constructor() {
         this._players = {};
         this._numPlayers = 0;
+        this._vipId = null;
     }
 
     get players() { return this._players; }
     get numPlayers() { return this._numPlayers; }
+    get vip() { return this._vipId; }
 
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
@@ -20,12 +22,13 @@ class WordSpudGame {
         /* Check if this is the first player, and assign VIP */
         if (this.numPlayers == 1) {
             console.log(">new player is first, setting VIP");
-            this._players[id].isVip = true;
+            this._vipId = id;
         }
     }
 
     /* Delete a player from the _players obj */
     removePlayer(id) {
+        /* Check if the player actually exists */
         if (this._players[id] == undefined) {
             console.log("failed to delete player w/ id %s", id);
             return;
@@ -33,7 +36,7 @@ class WordSpudGame {
 
         /* Check if player leaving was VIP */
         var needNewVip = false;
-        if (this._players[id].isVip)
+        if (this._vipId == id)
             needNewVip = true;
 
         /* Delete player from the loby and dec numPlayers */
@@ -45,9 +48,8 @@ class WordSpudGame {
         if (this._numPlayers == 0) {
             console.log(">leaving player was the last player");
         } else if (needNewVip) {
-            var newVip = this.playerIds[0];
-            this._players[newVip].isVip = true;
-            console.log(">leaving player was VIP, the new one is %s", this.getName(newVip));
+            this._vipId = this.playerIds[0];
+            console.log(">leaving player was VIP, the new one is %s", this.getName(this._vipId));
         }
     }
 

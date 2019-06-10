@@ -6,6 +6,8 @@
         <link rel="stylesheet" type="text/css" href="index.css"/>
         <!-- socket.io --><script src="/socket.io/socket.io.js"></script>
         <!-- jquery --><script src="https:/code.jquery.com/jquery-1.11.1.js"></script>
+        <!-- Player class --><script src="./Player-local.js"></script>        
+        <!-- Game class --><script src="./Game-local.js"></script>
         <!-- game client --><script src="./client.js"></script>
     </head>
     <body>
@@ -30,6 +32,8 @@
             <!-- PHASE 1: Waiting for game to start -->
             <div id="phase1">
                 <p>Waiting for all players to be ready...</p>
+                <p class="vip-only">You are the VIP!</p>
+                <button class="vip-only submit-btn">Start Game</button>
             </div>
 
             <!-- PHASE 2: Game is starting! -->

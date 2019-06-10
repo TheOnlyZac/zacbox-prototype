@@ -13,25 +13,42 @@ app.use(express.static(__dirname + "/public"));
 game = new Game();
 
 io.on('connection', function(socket) {
-    /* Get ID of new connected client */
+    /* Get ID of new connected client and send it to them */
     var pid = socket.id;
+    socket.emit('you are', pid)
+
     /* Add the new Player to the lobby */
     game.addPlayer(pid)
 
+    /* Send the current VIP id to ALL players */
+    io.sockets.emit('set vip', game.vip);
+
     /* On client disconnected */
     socket.on('disconnect', function() {
+        /* Remove the player from the Game lobby */
         game.removePlayer(pid);
+
+        /* Send the current VIP id to ALL players */
+        io.sockets.emit('set vip', game.vip);
     });
 
     /* Change the name of a player */
     socket.on('set name', function(newName) {
+        /* Change the Player name in the Game lobby */
         game.nameChange(pid, newName);
+
+        /* Send the new player to ALL clients */
+        io.sockets.emit('add player', {
+            "id": pid,
+            "name": newName
+        });
 
         /* Tell that player they're all set, wait for game start */
         socket.emit('setPhase', 1);
 
-        /* Check if everyone is ready! */
+        /* Check if everyone is ready */
         if (game.numPlayers == 2 && game.isReady) {
+            /* All ready, set phase to game start! */
             socket.emit('setPhase', 2);
         }
     });
