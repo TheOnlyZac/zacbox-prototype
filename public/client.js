@@ -9,11 +9,18 @@ $(function() {
 
     /* When nameForm is submitted (new name to be sent to server) */
     $('#nameform').submit(function(e) {
-        e.preventDefault(); // prevent page reloading
+        /* Prevent page reloading */
+        e.preventDefault();
+
+        /* Send the new name to the server */
+        var newName = $('#name').val();
         socket.emit('set name', {
-            "newName": $('#name').val()
-        }); // send the new name to the server
-        $('#name').val(''); // clear the nameForm textbox
+            "newName": newName
+        });
+
+        /* Clear the textbox and set header text */
+        $('.header-title').text(newName);
+        $('#name').val('');
         return false;
     });
 

@@ -11,6 +11,10 @@ html, body {
     background-color: #348AED /* picton blue */;
 }
 
+body * {
+    font-family: Arial, sans-serif;
+}
+
 #header {
     height: 50px;
 
@@ -30,7 +34,19 @@ html, body {
     background-color: #202020;
 }
 
+.copyright {
+    margin: 0;
+    padding: 0;
+
+    text-align: center;
+    color: white;
+    font-size: auto;
+    font-weight: 200;
+}
+
 #content * {
+    /* auto-center everything */
+    display: block;
     margin-left: auto;
     margin-right: auto;
 }
@@ -42,5 +58,38 @@ h1 {
     text-align: center;
 
     color: white;
-    font-family: Arial, sans-serif;
+}
+
+input {
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    width: 85%;
+    height: 30px;
+
+    font-size: 25px;
+
+    border-radius: 20px 0px 20px 0px;
+    border-style: groove;
+    border-color: #01295f
+}
+
+.submit-btn {
+    margin-top: 10px;
+
+    width: 200px;
+    height: 50px;
+
+    color: white;
+    background-color: #296eb4;
+
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+
+
+    border-radius: 20px 0px 20px 0px;
+    border-style: groove;
+    border-color: #01295f
 }
