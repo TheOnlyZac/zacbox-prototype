@@ -4,27 +4,25 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const Player = require('./Player-server.js');
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/wordspud-app"));
 
-/* create dictionary to store all joining players */
+/* Create object to store all joining players */
 var players = {};
 
 io.on('connection', function(socket) {
-    console.log('user connected');
-    var pid = socket.id;
-    players[pid] = new Player;
-    console.log(players);
+    var pid = socket.id; // Get id of new connected client
+    players[pid] = new Player; // Create a new Player in the players obj
+    console.log("user %s initialized", pid);
 
+    /* On client disconnected */
     socket.on('disconnect', function() {
-        console.log('user disconnected');
-        delete players[pid];
-        console.log(players);
+        console.log('user %s disconnected', pid);
+        delete players[pid]; // Delete player from players obj
     });
 
-    socket.on('set name', function(newName) {
-        console.log(newName);
-        players[pid].name = newName;
-        console.log(players);
+    socket.on('set name', function(data) {
+        console.log("setting new name for %s: %s", pid, data.newName);
+        players[pid].name = data.newName;
     });
 });
 
@@ -34,11 +32,3 @@ var port = 3000;
 http.listen(port, function() {
     console.log("listening on *:" + port);
 });
-
-function onSocketConnect() {
-    console.log('user connected');
-}
-
-function onSocketDisconnect() {
-    console.log('user disconnected');
-}
