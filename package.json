@@ -1,0 +1,9 @@
+{
+    "name": "zacbox-games",
+    "version": "0.0.1",
+    "description": "early tests of multiplayer jackbox-style games",
+    "dependencies": {
+        "express": "^4.15.2",
+        "socket.io": "^2.2.0"
+    }
+}
