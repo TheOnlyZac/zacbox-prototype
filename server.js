@@ -5,7 +5,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 const Player = require('./Player.js');
-const Game = require('./Loby.js');
+const Game = require('./Game.js');
 
 app.use(express.static(__dirname + "/public"));
 
