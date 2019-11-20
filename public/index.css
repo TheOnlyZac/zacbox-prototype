@@ -136,7 +136,8 @@ input {
     color: black;
     font-size: 25px;
     
-    border-radius: 20px 0px 20px 0px;
+    /* border-radius: 20px 0px 20px 0px; */
+    border-radius: 10px;
     border: 1px solid white;
 }
 
@@ -153,7 +154,8 @@ button {
     text-transform: uppercase;
 
 
-    border-radius: 20px 0px 20px 0px;
+    /*border-radius: 20px 0px 20px 0px;*/
+    border-radius: 10px;
     border: 1px solid white;
 }
 
@@ -234,12 +236,13 @@ button {
 }
 
 #spudform {
+    width: 100%;
     visibility: visible;
 }
 
 input[name="spudtextbox"] {
     margin-right: 0;
-    width: 240px;
+    max-width: 240px;
 
     font-size: 15px;
     text-transform: lowercase;
