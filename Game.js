@@ -7,6 +7,17 @@ class WordSpudGame {
         this._vipId = null;
     }
 
+    get colors() {
+        return ['red',
+        'orange',
+        'yellow',
+        'green',
+        'blue',
+        'purple',
+        'violet',
+        'aqua']
+    }
+
     get players() { return this._players; }
     get numPlayers() { return this._numPlayers; }
     get vip() { return this._vipId; }
@@ -14,7 +25,7 @@ class WordSpudGame {
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
         /* Add the new player to the lobby, and increment numPlayers */
-        this._players[id] = new Player(id, name);
+        this._players[id] = new Player(id, name, this.colors[this.numPlayers]);
         this._numPlayers++;
         console.log("user %s initialized as %s", id, this.getName(id));
 
@@ -53,14 +64,6 @@ class WordSpudGame {
         }
     }
 
-    getName(id) {
-        return this._players[id].name;
-    }
-
-    getPlayer(id) {
-        return this._players[id];
-    }
-
     /* Return an array of playerIds */
     get playerIds() { return Object.keys(this._players); }
 
@@ -68,7 +71,7 @@ class WordSpudGame {
     get isReady() {
         /* Iterate over every player */
         for (var i = 0; i < this.playerIds.length; i++) {
-            /* Check if current player is NOT ready */
+            /* Check if player is NOT ready */
             if (!(this._players[this.playerIds[i]].isReady)) {
                 /* Someone is not ready, return false */
                 return false;
@@ -82,6 +85,19 @@ class WordSpudGame {
         console.log("changing name of %s from %s to %s", id, this.getName(id), newName);
         this._players[id].name = newName;
     }
+
+    getName(id) {
+        return this._players[id].name;
+    }
+
+    getPlayer(id) {
+        return this._players[id];
+    }
+
+    startGame() {
+        console.log('game started!');
+    }
+
 }
 
 module.exports = WordSpudGame;

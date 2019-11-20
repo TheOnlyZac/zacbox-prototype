@@ -50,16 +50,21 @@ body * {
 }
 
 #content {
-    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 
     padding: 10px;
+    height: 100%;
+
+    vertical-align: middle;
+    text-align: center;
 }
 
-#content * {
-    /* auto-center everything */
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.phase {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
 }
 
 #dc-banner {
@@ -85,8 +90,7 @@ body * {
 #footer {
     display: flex;
     height: 25px;
-    background-color: black;;
-    border-top: 1px solid white;
+    background-color: black;
 }
 
 .copyright {
@@ -129,8 +133,7 @@ input {
     font-size: 25px;
     
     border-radius: 20px 0px 20px 0px;
-    border-style: groove;
-    border-color: black;
+    border: 1px solid white;
 }
 
 button {
@@ -147,11 +150,12 @@ button {
 
 
     border-radius: 20px 0px 20px 0px;
-    border-style: groove;
-    border-color: black;
+    border: 1px solid white;
 }
 
-#lobby-list tbody {
+#lobby-list {
+    margin-left: auto;
+    margin-right: auto;
     width: 300px;
 }
 
@@ -164,6 +168,7 @@ button {
 }
 
 #lobby-list tr {
+    display: block;
     margin: 2px;
     padding: 5px;
 
@@ -174,12 +179,37 @@ button {
     /*border: 2px groove 212922;*/
 }
 
+#lobby-list * td {
+    display: inline-block;
+    width: 100%;
+    
+    text-align: center;
+}
+
 .players {
     margin: 0;
     padding: 0;
 }
 
+/* * * Name Colors * * */
+.red { color: red; }
+.orange { color: orange; }
+.yellow { color: yellow; }
+.green { color: green; }
+.blue { color: blue; }
+.purple { color: purple; }
+.violet { color: violet; }
+.aqua { color: aqua; }
+span {
+
+}
+
 /* * * Actual Game UI * * */
+
+#wordspud {
+    margin-top: auto;
+    margin-bottom: auto;
+}
 
 #word {
     width: 100%;
@@ -195,9 +225,12 @@ button {
     display: flex;
     flex-direction: row;
     align-items: stretch;
+
+    position: absolute;
+    bottom: 0;
     
     width: 100%;
-
+    height: 50px;
 }
 
 #ingame-list tbody {

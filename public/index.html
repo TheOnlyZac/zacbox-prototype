@@ -24,7 +24,7 @@
             </div>
 
             <!-- PHASE 0: Set Player Name -->
-            <div id="phase0">
+            <div id="phase0" class="phase">
                 <form id="nameform">
                     <h1>Enter your name!</h1>
                     <input id="name" maxlength="15" autocomplete="off"/></br>
@@ -33,7 +33,7 @@
             </div>
 
             <!-- PHASE 1: Waiting for game to start -->
-            <div id="phase1">
+            <div id="phase1" class="phase">
                 <p>Waiting for all players to be ready...</p>
 
                 <!-- LOBBY LIST OF PLAYERS -->
@@ -51,19 +51,21 @@
             </div>
 
             <!-- PHASE 2: Game is starting! -->
-            <div id="phase2">
-                <h2 id="word">placeholder</h2>
-                <h3 id="spud">
-                    <span>the</span>
-                    <span>quick</span>
-                    <span>brown</span>
-                    <span>fox</span>
-                    <span>jumps</span>
-                    <span>over</span>
-                    <span>the</span>
-                    <span>lazy</span>
-                    <span>dog</span>
-                </h3>
+            <div id="phase2" class="phase">
+                <div id="wordspud">
+                    <h2 id="word">placeholder</h2>
+                    <h3 id="spud">
+                        <span class='red'>the</span>
+                        <span class='yellow'>quick</span>
+                        <span class='blue'>brown</span>
+                        <span class='purple'>fox</span>
+                        <span class='orange'>jumps</span>
+                        <span class='aqua'>over</span>
+                        <span class='red'>the</span>
+                        <span class='violet'>lazy</span>
+                        <span class='blue'>dog</span>
+                    </h3>
+                </div>
 
                 <!--  IN-GAME LIST OF PLAYERS -->
                 <table id="ingame-list" class="players-list">

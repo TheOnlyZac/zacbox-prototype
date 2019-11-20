@@ -15,13 +15,13 @@ $(function() {
 
     socket.on('add player', function(data) {
         console.log("Received: add player | " + data.id);
-        game.addPlayer(data.id, data.name);
+        game.addPlayer(data.id, data.name, data.color);
 
         /* Add name to the Lobby players table */
-        $('#lobby-list').append("<tr class=" + data.id + "><td>" + data.name + "</td></tr>");
-
+        var lobbyName = $('#lobby-list').append("<tr class=" + data.id + "><td>" + data.name + "</td></tr>");
         /* Add name to the In-game players table */
-        $('#ingame-list').append("<td class=" + data.id + ">" + data.name + "</td>");
+        var igName = $('#ingame-list').append("<td class='" + data.id + "'>" + data.name + "</td>");
+        $('.' + data.id).addClass(data.color);
  
     });
     

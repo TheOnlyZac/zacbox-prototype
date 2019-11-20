@@ -24,7 +24,8 @@ io.on('connection', function(socket) {
         console.log(game.getPlayer(oldPlayers[i]));
         socket.emit('add player', {
             "id": game.getPlayer(oldPlayers[i]).id,
-            "name": game.getPlayer(oldPlayers[i]).name
+            "name": game.getPlayer(oldPlayers[i]).name,
+            "color": game.getPlayer(oldPlayers[i]).color
         });
     }
 
@@ -46,12 +47,13 @@ io.on('connection', function(socket) {
     /* After player enters their name */
     socket.on('log in', function(newName) {
         /* Add the new Player to the lobby with their proper name */
-        game.addPlayer(pid, newName)
+        game.addPlayer(pid, newName);
 
         /* Send the new player to ALL clients */
         io.sockets.emit('add player', {
-            "id": pid,
-            "name": newName
+            "id": game.getPlayer(pid).id,
+            "name": game.getPlayer(pid).name,
+            "color": game.getPlayer(pid).color
         });
 
         /* Send the current VIP id to ALL players */
@@ -59,17 +61,16 @@ io.on('connection', function(socket) {
 
         /* Tell that player they're all set, wait for game start */
         socket.emit('set phase', 1);
-
-        /* Check if everyone is ready */
-        if (game.numPlayers == 2 && game.isReady) {
-            /* All ready, set phase to game start! */
-            socket.emit('set phase', 2);
-        }
     });
 
     socket.on('check vip', function() {
         if (game.getPlayer(pid).isVip) socket.emit('vip status', true);
         else socket.emit('vip status', false);
+    })
+    
+    socket.on('start game', function() {
+        game.startGame();
+        io.sockets.emit('set phase', 2);
     })
 });
 
