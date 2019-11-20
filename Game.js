@@ -5,6 +5,7 @@ class WordSpudGame {
         this._players = {};
         this._numPlayers = 0;
         this._vipId = null;
+        this._started = false;
     }
 
     get colors() {
@@ -21,6 +22,7 @@ class WordSpudGame {
     get players() { return this._players; }
     get numPlayers() { return this._numPlayers; }
     get vip() { return this._vipId; }
+    get started() { return this._started; }
 
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
@@ -96,6 +98,7 @@ class WordSpudGame {
 
     startGame() {
         console.log('game started!');
+        this._started = true;
     }
 
 }

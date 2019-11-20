@@ -60,7 +60,11 @@ io.on('connection', function(socket) {
         io.sockets.emit('set vip', game.vip);
 
         /* Tell that player they're all set, wait for game start */
-        socket.emit('set phase', 1);
+        if (game.started) {
+            socket.emit('set phase', 2);
+        } else {
+            socket.emit('set phase', 1);
+        }
     });
 
     socket.on('check vip', function() {
