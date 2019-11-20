@@ -113,6 +113,10 @@ h1, h2, h3 {
     width: 100%;
 }
 
+h2 {
+    font-size: 30px
+}
+
 p {
     width: 100%;
 
@@ -200,9 +204,6 @@ button {
 .purple { color: purple; }
 .violet { color: violet; }
 .aqua { color: aqua; }
-span {
-
-}
 
 /* * * Actual Game UI * * */
 
@@ -211,14 +212,49 @@ span {
     margin-bottom: auto;
 }
 
-#word {
-    width: 100%;
+.word {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
 
-    font-size: 30px;
+#word1 {
+    color: white;
+}
+
+#spud {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #spud * {
     display: inline !important;
+}
+
+#spudform {
+    visibility: visible;
+}
+
+input[name="spudtextbox"] {
+    margin-right: 0;
+    width: 240px;
+
+    font-size: 15px;
+    text-transform: lowercase;
+
+    border-radius: 10px 0px 0px 10px;
+}
+
+.send-btn {
+    margin-left: 0;
+    padding: 0;
+    width: 32px !important;
+    height: 32px !important;
+    /*(background-color: blue;*/
+
+    border-radius: 0px 10px 10px 0px;
 }
 
 #ingame-list {
