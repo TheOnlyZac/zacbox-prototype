@@ -70,7 +70,6 @@ body * {
 #dc-banner {
     visibility: hidden;
 
-    margin-top: 33%;
     left: 0; right: 0;
     padding-top: 15px;
     position: absolute;
@@ -237,7 +236,7 @@ button {
 
 #spudform {
     width: 100%;
-    visibility: visible;
+    visibility: hidden;
 }
 
 input[name="spudtextbox"] {
@@ -258,6 +257,32 @@ input[name="spudtextbox"] {
     /*(background-color: blue;*/
 
     border-radius: 0px 10px 10px 0px;
+}
+
+#voteform {
+    width: 100%;
+    visibility: visible;
+}
+
+.vote-btn {
+    margin: 20px;
+    padding: 0;
+
+    width: 60px;
+    height: 60px;
+
+    text-align: center;
+
+    border-radius: 100px;
+}
+
+.voteyes-btn {
+    background-color: #3AB54A;
+    font-size: 30px
+}
+
+.voteno-btn {
+    background-color: #ED1A24;
 }
 
 #ingame-list {
