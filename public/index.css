@@ -228,14 +228,13 @@ button {
     padding: 0;
     display: inline;
     text-transform: lowercase;
+    word-wrap: break-word;
+
+    transition: opacity 0.5s;
 }
 
 #word1 {
     color: white;
-}
-
-#word2 {
-    word-wrap: break-word;
 }
 
 #spud {
@@ -284,6 +283,10 @@ input[name="spudtextbox"] {
 #voteform {
     width: 100%;
     visibility: hidden;
+}
+
+form {
+    transition: opacity 100ms !important;
 }
 
 .vote-btn {
