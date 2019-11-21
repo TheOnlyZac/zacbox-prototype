@@ -21,7 +21,6 @@ io.on('connection', function(socket) {
     var oldPlayers = game.playerIds;
     //console.log("oldPlayers: " + oldPlayers);
     for (var i = 0; i < oldPlayers.length; i++) {
-        console.log(game.getPlayer(oldPlayers[i]));
         socket.emit('add player', {
             "id": game.getPlayer(oldPlayers[i]).id,
             "name": game.getPlayer(oldPlayers[i]).name,
@@ -101,7 +100,6 @@ io.on('connection', function(socket) {
 
         // start the game for all clients that have joined the lobby
         for (let i = 0; i < game.playerIds.length; i++) {
-            console.log('$' + game.playerIds[i]);
             io.to(game.playerIds[i]).emit('set phase', 2);
         }
 
@@ -151,8 +149,9 @@ io.on('connection', function(socket) {
             }
             
             // tell all clients to update the current player's score
+            console.log("adding " + game.voteTally + " to player " + game.currentPlayer);
             io.sockets.emit('add score', {
-                'playerId': game.currPlayerId,
+                'playerId': game.currentPlayer,
                 'score': game.voteTally
             });
 

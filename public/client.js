@@ -3,6 +3,7 @@ game = new WordSpudGame();
 $(function() {
     //console.log("client initialized");
     var socket = io();
+    screen.orientation.lock("portrait");
     setPhase(0);
     $("#name").focus();
 
@@ -61,7 +62,7 @@ $(function() {
         game.currPlayer =currPlayerId;
         if (currPlayerId == game.me) {
             $('#spudtb').val('');
-            $('#spudform').css('visibility', 'visible');
+            $('#spudform').css({'opacity':'1', 'visibility':'visible'});
         } else {
             $('#spudform').css('visibility', 'hidden');
         }
@@ -76,32 +77,32 @@ $(function() {
         });
     })
 
-    socket.on('set word1', function(newText) {
-        $('#word1').text(newText);
-    })
+    socket.on('set word1', function(newText) { setWordOne(newText); });
 
-    socket.on('set word2', function(data) {
-        $('#word2').text(data.newText);
-        $('#word2').removeClass()
-        $('#word2').addClass('word')
-        $('#word2').addClass(data.color);
-
-    })
+    socket.on('set word2', function(data) { setWordTwo(data.newText, data.color); });
 
     socket.on('spud add', function(data) {
-        $('#spud').append("<span class='" + data.color + "'>" + data.spudText + "</span>");
+        newSpud = $("<span class='" + data.color + "'></span>").appendTo('#spud'), data.spudText;
+        typeTransition(newSpud, data.spudText);
         var spudWords = data.spudText.split(" ");
-        $('#word1').text(spudWords[spudWords.length - 1]);
+
+        setWordOne(spudWords[spudWords.length - 1]);
+
         $('#word2').text('');
     })
 
     socket.on('start vote', function() {
         console.log("starting vote");
         if (game.currPlayer == game.me) {
-            $('#spudform').css('visibility', 'hidden');
             return;
         }
-        $('#voteform').css('visibility', 'visible');
+        $('#voteform').css({'opacity':'1', 'visibility':'visible'});
+    })
+
+    socket.on('add score', function(data) {
+        console.log("adding " + data.score + " to player " + data.playerId);
+        game.players[data.playerId].score += data.score;
+        $('.score.' + data.playerId).text(game.players[data.playerId].score);
     })
 
     /* * * * GAME TRIGGERS * * * */
@@ -141,6 +142,12 @@ $(function() {
     });
 
     $('#spudtb').on('input', function() {
+        $(this).val($(this).val().replace(/[^a-z0-9 ]/gi,''));
+        if ($(this).val().length >= 35) {
+            $(this).val($(this).val().substring(0, 35));
+            console.log('whoops');
+        }
+
         socket.emit("live type", $('#spudtb').val());
     })
 
@@ -148,12 +155,18 @@ $(function() {
         /* Prevent page reloading */
         e.preventDefault();
 
-        if ($('#spudtb').val().length == 0) {
+        var spudText =  $('#spudtb').val();
+
+        // check for blank value 
+        if (spudText.length === 0 || spudText.match(/^ *$/) !== null) {
             socket.emit('pass turn');
         } else {
             console.log("Spud form submitted");
-            socket.emit('spud submit', $('#spudtb').val());
+            socket.emit('spud submit', spudText);
         }
+        $('#spudform').css('opacity', '0', function() {
+            $(this).css('visibilty', 'hidden');
+        })
     });
 
     $('#voteform').submit(function(e) {
@@ -164,15 +177,41 @@ $(function() {
     $('.vote-btn').on('click', function() {
 
         /* Report vote to server */
-        if ($(this).hasClass('voteyes-btn')) socket.emit('vote', 'true');
-        else if ($(this).hasClass('voteno-btn')) socket.emit('vote', 'false');
+        if ($(this).hasClass('voteyes-btn')) socket.emit('vote', 'yes');
+        else if ($(this).hasClass('voteno-btn')) socket.emit('vote', 'no');
         else { return; }
 
         /* Hide voteform */
-        $('#voteform').css("visibility", 'hidden');
+        $('#voteform').css('opacity', '0', function() {
+            $(this).css('visibilty', 'hidden');
+        })
     })
 
 });
+
+function setWordOne(text) {
+    /*$(".wordsoneandtwo").fadeOut(200, function() {
+        $('#word1').text(text);
+    }).fadeIn(200);*/
+    $('#word1').text(text);
+}
+
+function setWordTwo(text, color) {
+    $('#word2').text(text);
+    $('#word2').removeClass()
+    $('#word2').addClass('word')
+    $('#word2').addClass(color);
+}
+
+function typeTransition(element, text, time=text.length*100) {
+    var len = text.length;
+    
+    for (let i = 0; i < len; i++) {
+        setTimeout(function() {
+            element.append(text.charAt(i));
+        }, (time / len) * (i + 1));
+    }
+}
 
 function setPhase(phaseNum) {
     for (var i = 0; i <= 2; i++)
