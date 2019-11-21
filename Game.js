@@ -44,12 +44,17 @@ class WordSpudGame {
         this._players[id] = new Player(id, name, this._colors[this.numPlayers]);
         this._numPlayers++;
         console.log("user %s initialized as %s", id, this.getName(id));
-
         
         /* Check if this is the first player, and assign VIP */
         if (this.numPlayers == 1) {
             console.log(">new player is first, setting VIP");
             this._vipId = id;
+        }
+
+        /* Add them to the turn order and shuffle it */
+        if (this._started) {
+            this._turnOrder.push(id);
+            this.shuffleArray(this._turnOrder);
         }
     }
 
@@ -65,6 +70,11 @@ class WordSpudGame {
         var needNewVip = false;
         if (this._vipId == id)
             needNewVip = true;
+
+        /* Check if player is in the turn order queue */
+        if (this._turnOrder.indexOf(id) > -1) {
+            this._turnOrder.splice(this._turnOrder.indexOf(id), 1);
+        }
 
         /* Delete player from the loby and dec numPlayers */
         delete this._players[id];
@@ -132,10 +142,19 @@ class WordSpudGame {
     }
 
     nextPlayer() {
+        // track who the previous player was
+        var lastPlayer = this._currentPlayer;
+
+        // if this player is the final player in the turn order...
         if (this._turnOrder.length == 0) {
+            // repopulate the turn order queue
             this._turnOrder = Array.from(this.playerIds);
-            this.shuffleArray(this._turnOrder);
+            // shuffle the turn order queue until the same player isn't next
+            do { 
+                this.shuffleArray(this._turnOrder);
+            } while(this._turnOrder[this._turnOrder.length - 1] == lastPlayer && this._numPlayers > 1);
         }
+        // pop the next player from the turn order queue and set their turn
         this._currentPlayer = this._turnOrder.pop();
         //console.log("Set current player to " + this._currentPlayer);
     }

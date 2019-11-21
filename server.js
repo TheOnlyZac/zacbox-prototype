@@ -71,6 +71,15 @@ io.on('connection', function(socket) {
         /* Tell that player they're all set, wait for game start */
         if (game.started) {
             socket.emit('set phase', 2);
+            var lastWord = "";
+            for (let i = 0; i < game.wordSpud.length; i++) {
+                socket.emit('spud add', {
+                    'spudText': game.wordSpud[i].word,
+                    'color': game.wordSpud[i].color
+                })
+                lastWord = game.wordSpud[i].word;
+            }
+            socket.emit('set word1', lastWord);
         } else {
             socket.emit('set phase', 1);
         }
@@ -84,13 +93,19 @@ io.on('connection', function(socket) {
     socket.on('start game', function() {
         game.startGame();
 
+        // send the starting word to all clients
         io.sockets.emit('spud add', {
             'spudText': game.wordSpud[0].word,
             'color': 'white'
         })
 
-        io.sockets.emit('set phase', 2);
+        // start the game for all clients that have joined the lobby
+        for (let i = 0; i < game.playerIds.length; i++) {
+            console.log('$' + game.playerIds[i]);
+            io.to(game.playerIds[i]).emit('set phase', 2);
+        }
 
+        // trigger the first player's turn
         turnOver();
     });
 

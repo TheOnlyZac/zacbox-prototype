@@ -57,7 +57,7 @@ $(function() {
     });
 
     socket.on('your turn', function(currPlayerId) {
-        console.log("received: curr player is " + currPlayerId);
+        //console.log("received: curr player is " + currPlayerId);
         if (currPlayerId == game.me) {
             $('#spudtb').val('');
             $('#spudform').css('visibility', 'visible');
