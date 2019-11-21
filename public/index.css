@@ -205,11 +205,12 @@ button {
 .red { color: red; }
 .orange { color: orange; }
 .yellow { color: yellow; }
-.green { color: rgb(0, 167, 0); }
-.blue { color: rgb(0, 183, 255); }
+.green { color: rgb(0, 167, 14); }
+.blue { color: rgb(0, 140, 255); }
 .purple { color: rgb(201, 0, 201); }
 .violet { color: violet; }
 .aqua { color: aqua; }
+.white { color: white; }
 
 /* * * Actual Game UI * * */
 

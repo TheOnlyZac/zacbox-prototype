@@ -75,7 +75,11 @@ io.on('connection', function(socket) {
     socket.on('start game', function() {
         game.startGame();
         io.sockets.emit('set phase', 2);
-        socket.emit('your turn');
+
+        if (game.turnOrder.pop() == pid) {
+            socket.emit('your turn');
+        }
+
     });
 
     socket.on('live type', function(newText) {

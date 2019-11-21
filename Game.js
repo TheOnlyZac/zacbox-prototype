@@ -6,6 +6,7 @@ class WordSpudGame {
         this._numPlayers = 0;
         this._vipId = null;
         this._started = false;
+        this._turnOrder = [];
     }
 
     get colors() {
@@ -23,6 +24,7 @@ class WordSpudGame {
     get numPlayers() { return this._numPlayers; }
     get vip() { return this._vipId; }
     get started() { return this._started; }
+    get turnOrder() { return this._turnOrder; }
 
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
@@ -96,8 +98,21 @@ class WordSpudGame {
         return this._players[id];
     }
 
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--){
+            const j = Math.floor(Math.random() * i)
+            const temp = array[i]
+            array[i] = array[j]
+            array[j] = temp
+          }
+    }
+
     startGame() {
         console.log('game started!');
+
+        this._turnOrder = Array.from(this.playerIds);
+        this.shuffleArray(this._turnOrder);
+
         this._started = true;
     }
 
