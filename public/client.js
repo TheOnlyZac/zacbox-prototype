@@ -75,7 +75,7 @@ $(function() {
     })
 
     socket.on('set word1', function(newText) {
-        $('#word2').text(newText);
+        $('#word1').text(newText);
     })
 
     socket.on('set word2', function(data) {
@@ -87,7 +87,7 @@ $(function() {
     })
 
     socket.on('spud add', function(data) {
-        $('#spud').append("<span class='" + data.color + "'>" + data.spudText + " </span>");
+        $('#spud').append("<span class='" + data.color + "'>" + data.spudText + "</span>");
         var spudWords = data.spudText.split(" ");
         $('#word1').text(spudWords[spudWords.length - 1]);
         $('#word2').text('');
@@ -137,9 +137,13 @@ $(function() {
         /* Prevent page reloading */
         e.preventDefault();
 
-        console.log("Spud form submitted");
-        socket.emit("spud submit", $('#spudtb').val());
-    })
+        if ($('#spudtb').val().length == 0) {
+            socket.emit('pass turn');
+        } else {
+            console.log("Spud form submitted");
+            socket.emit('spud submit', $('#spudtb').val());
+        }
+    });
 
 });
 

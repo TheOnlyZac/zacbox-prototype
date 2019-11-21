@@ -83,6 +83,12 @@ io.on('connection', function(socket) {
     
     socket.on('start game', function() {
         game.startGame();
+
+        io.sockets.emit('spud add', {
+            'spudText': game.wordSpud[0].word,
+            'color': 'white'
+        })
+
         io.sockets.emit('set phase', 2);
 
         turnOver();
@@ -104,12 +110,16 @@ io.on('connection', function(socket) {
             'color': game.players[game.currentPlayer].color
         })
         turnOver();
-    })
+    });
+
+    socket.on('pass turn', function() {
+        turnOver();
+    });
 
     function turnOver() {
         game.nextPlayer();
         currPlayerId = game.currentPlayer;
-        console.log("currplayer: " + currPlayerId);
+        //console.log("currplayer: " + currPlayerId);
         io.sockets.emit('your turn', currPlayerId);
     }
 });

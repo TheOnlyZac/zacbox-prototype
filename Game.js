@@ -9,18 +9,26 @@ class WordSpudGame {
         this._turnOrder = [];
         this._currentPlayer = null;
         this._wordSpud = [];
+        this._colors = ['red',
+            'orange',
+            'yellow',
+            'green',
+            'blue',
+            'purple',
+            'violet',
+            'aqua']
+        this._startingWords = [
+            'peanut', 'movie', 'red', 'road', 'blood',
+            'friend', 'bad', 'day', 'cow', 'side',
+            'flame', 'fire', 'game', 'fall', 'wild',
+            'bear', 'wrist', 'foot', 'grand', 'life',
+            'sun', 'over', 'right', 'mouse', 'under'
+        ]
+        this.shuffleArray(this._colors);
+        this.shuffleArray(this._startingWords);
     }
 
-    get colors() {
-        return ['red',
-        'orange',
-        'yellow',
-        'green',
-        'blue',
-        'purple',
-        'violet',
-        'aqua']
-    }
+    get colors() { return this._colors; }
 
     get players() { return this._players; }
     get numPlayers() { return this._numPlayers; }
@@ -33,7 +41,7 @@ class WordSpudGame {
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
         /* Add the new player to the lobby, and increment numPlayers */
-        this._players[id] = new Player(id, name, this.colors[this.numPlayers]);
+        this._players[id] = new Player(id, name, this._colors[this.numPlayers]);
         this._numPlayers++;
         console.log("user %s initialized as %s", id, this.getName(id));
 
@@ -103,16 +111,18 @@ class WordSpudGame {
     }
 
     shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--){
+        for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
             const temp = array[i]
             array[i] = array[j]
             array[j] = temp
-          }
+        }
+        return array;
     }
 
     startGame() {
         console.log('game started!');
+        this.addSpud(this._startingWords[0], "white");
         this._started = true;
     }
 
@@ -127,7 +137,7 @@ class WordSpudGame {
             this.shuffleArray(this._turnOrder);
         }
         this._currentPlayer = this._turnOrder.pop();
-        console.log("Set current player to " + this._currentPlayer);
+        //console.log("Set current player to " + this._currentPlayer);
     }
 
     addSpud(word, color) {
