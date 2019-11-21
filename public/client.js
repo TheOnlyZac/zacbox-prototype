@@ -66,10 +66,12 @@ $(function() {
         }
 
         $('.playername').toArray().forEach(element => {
-            if ($(element).id == currPlayerId) {
-                $(element).css('font-size', ' 20px');
+            console.log($(element));
+            if ($(element).hasClass(currPlayerId)) {
+                $(element).addClass('currentplayer');
             } else {
-                $(element).css('font-size', '15px');
+                $(element).removeClass('currentplayer');
+                $(element).css('padding-bottom', '0px');
             }
         });
     })

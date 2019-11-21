@@ -49,6 +49,10 @@ body * {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.header-title {
+    text-transform: uppercase;
+}
+
 #content {
     display: flex;
     justify-content: center;
@@ -328,4 +332,10 @@ input[name="spudtextbox"] {
 #ingame-list td {
     flex-grow: 1;
     width: auto;
+
+    transition: font-size 0.5s;
+}
+
+.currentplayer {
+    font-size: 20px;
 }
