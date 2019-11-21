@@ -70,12 +70,17 @@ io.on('connection', function(socket) {
     socket.on('check vip', function() {
         if (game.getPlayer(pid).isVip) socket.emit('vip status', true);
         else socket.emit('vip status', false);
-    })
+    });
     
     socket.on('start game', function() {
         game.startGame();
         io.sockets.emit('set phase', 2);
-    })
+        socket.emit('your turn');
+    });
+
+    socket.on('live type', function(newText) {
+        io.sockets.emit('echo text', newText);
+    });
 });
 
 /* Start listening on the provided port */

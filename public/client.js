@@ -55,6 +55,14 @@ $(function() {
         checkVipUi();
     });
 
+    socket.on('your turn', function() {
+        $('#spudform').css('visibility', 'visible');
+    })
+
+    socket.on('echo text', function(newText) {
+        $('#word2').text(newText);
+    })
+
     /* * * * GAME TRIGGERS * * * */
 
     /* Player set name and log in */
@@ -90,6 +98,10 @@ $(function() {
         console.log("Sending start game message!");
         socket.emit('start game');
     });
+
+    $('#spudtb').on('input', function() {
+        socket.emit("live type", $('#spudtb').val());
+    })
 
 });
 

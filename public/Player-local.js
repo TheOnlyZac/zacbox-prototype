@@ -14,4 +14,7 @@ class Player {
 
     get color() { return this._color; }
     set color(newColor) { this._color = newColor; }
+
+    get score() { return this._score; }
+    set score(newScore) { this._score = newScore; }
 }

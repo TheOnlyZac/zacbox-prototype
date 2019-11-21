@@ -261,7 +261,7 @@ input[name="spudtextbox"] {
 
 #voteform {
     width: 100%;
-    visibility: visible;
+    visibility: hidden;
 }
 
 .vote-btn {
