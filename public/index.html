@@ -37,7 +37,7 @@
                 <p>Waiting for the VIP to start...</p>
 
                 <!-- LOBBY LIST OF PLAYERS -->
-                <table id="lobby-list" class="players-list">
+                <table id="lobby-list">
                     <tbody class="players">
                         <!-- <tr><td>hello</td></tr>
                         <tr><td>world</td></tr> -->
@@ -74,12 +74,14 @@
                 </form>
                 
                 <form id="voteform">
-                    <button class="button vote-btn voteyes-btn">✓</button>
-                    <button class="button vote-btn voteno-btn">╳</button>
+                    <button class="button vote-btn voteyes-btn" type="submit">✓</button>
+                    <button class="button vote-btn voteno-btn" type="submit">╳</button>
                 </form>
 
                 <!--  IN-GAME LIST OF PLAYERS -->
-                <table id="ingame-list" class="players-list">
+                <table id="ingame-players-list">
+                    <tr id="score-list"><tr>
+                    <tr id="ingame-list" ></tr>
                 </table>
 
             </div>

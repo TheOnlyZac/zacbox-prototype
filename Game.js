@@ -9,6 +9,7 @@ class WordSpudGame {
         this._turnOrder = [];
         this._currentPlayer = null;
         this._wordSpud = [];
+        this._currSpud = '';
         this._colors = ['red',
             'orange',
             'yellow',
@@ -26,6 +27,8 @@ class WordSpudGame {
         ]
         this.shuffleArray(this._colors);
         this.shuffleArray(this._startingWords);
+
+        this._voteTally = 0;
     }
 
     get colors() { return this._colors; }
@@ -37,6 +40,27 @@ class WordSpudGame {
     get turnOrder() { return this._turnOrder; }
     get currentPlayer() { return this._currentPlayer; }
     get wordSpud() { return this._wordSpud; }
+    get voteTally() { return this._voteTally; }
+    get currSpud() { return this._currSpud; }
+    
+    /* Return an array of playerIds */
+    get playerIds() { return Object.keys(this._players); }
+
+    /* Check if all players are ready */
+    get allReady() {
+        /* Iterate over every player */
+        for (let key in this._players) {
+            /* Check if player is NOT ready */
+            if (!this._players[key].isReady)  return false;
+        }
+        /* Everyone is ready! */
+        return true;
+    }
+
+    get randomWord() {
+        this.shuffleArray(this._startingWords);
+        return this._startingWords[0];
+    }
 
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
@@ -90,23 +114,6 @@ class WordSpudGame {
         }
     }
 
-    /* Return an array of playerIds */
-    get playerIds() { return Object.keys(this._players); }
-
-    /* Check if all players are ready */
-    get isReady() {
-        /* Iterate over every player */
-        for (var i = 0; i < this.playerIds.length; i++) {
-            /* Check if player is NOT ready */
-            if (!(this._players[this.playerIds[i]].isReady)) {
-                /* Someone is not ready, return false */
-                return false;
-            }
-            /* Everyone is ready! */
-            return true;
-        }
-    }
-
     nameChange(id, newName) {
         console.log("changing name of %s from %s to %s", id, this.getName(id), newName);
         this._players[id].name = newName;
@@ -157,6 +164,24 @@ class WordSpudGame {
         // pop the next player from the turn order queue and set their turn
         this._currentPlayer = this._turnOrder.pop();
         //console.log("Set current player to " + this._currentPlayer);
+    }
+
+    startVote(currPlayerId, currSpud) {
+        for (let key in this._players) {
+            this._players[key].isReady = false;
+        }
+        this._currSpud = currSpud;
+        this._players[currPlayerId].isReady = true;
+        this._voteTally = 0;
+    }
+
+    setVote(playerId, vote) {
+        //console.log("setting vote: " + vote);
+        this._players[playerId].vote = vote;
+        this._players[playerId].isReady = true;
+
+        this._voteTally += (vote == true ? 100 : -100);
+        return this.allReady;
     }
 
     addSpud(word, color) {

@@ -201,11 +201,6 @@ button {
     padding: 0;
 }
 
-.players-list td {
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
 /* * * Name Colors * * */
 .red { color: red; }
 .orange { color: orange; }
@@ -312,30 +307,34 @@ input[name="spudtextbox"] {
     background-color: #ED1A24;
 }
 
-#ingame-list {
-    display: flex; 
-    flex-direction: row;
-    align-items: stretch;
-
-    position: absolute;
-    bottom: 0;
-    
-    width: 100%;
-    height: 50px;
-}
-
-#ingame-list tbody {
-    margin: 0;
-    padding: 0;
-}
-
-#ingame-list td {
-    flex-grow: 1;
-    width: auto;
-
-    transition: font-size 0.5s;
-}
+/* * * Ingame Players List * * */
 
 .currentplayer {
     font-size: 20px;
 }
+
+.playername {
+    text-transform: uppercase;
+    font-weight: bold;
+
+    transition: font-size 1s;
+}
+
+#ingame-players-list {
+    width: 100%;
+    position: absolute;
+    bottom: 30px;
+}
+
+#ingame-players-list tr {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+#ingame-players-list td {
+    flex-grow: 1;
+    flex-basis: 0;
+    width: auto;
+}
+

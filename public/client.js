@@ -18,11 +18,11 @@ $(function() {
         game.addPlayer(data.id, data.name, data.color);
 
         /* Add name to the Lobby players table */
-        var lobbyName = $('#lobby-list').append("<tr class=" + data.id + "><td>" + data.name + "</td></tr>");
+        var lobbyName = $('#lobby-list').append("<tr class='playername " + data.id + "'><td>" + data.name + "</td></tr>");
         /* Add name to the In-game players table */
-        var igName = $('#ingame-list').append("<td class='" + data.id + "'>" + data.name + "</td>");
+        var igName = $('#ingame-list').append("<td class='playername " + data.id + "'>" + data.name + "</td>");
+        var igName = $('#score-list').append("<td class='score " + data.id + "'>0</td>");
         $('.' + data.id).addClass(data.color);
-        $('.' + data.id).addClass("playername");
  
     });
     
@@ -58,6 +58,7 @@ $(function() {
 
     socket.on('your turn', function(currPlayerId) {
         //console.log("received: curr player is " + currPlayerId);
+        game.currPlayer =currPlayerId;
         if (currPlayerId == game.me) {
             $('#spudtb').val('');
             $('#spudform').css('visibility', 'visible');
@@ -66,7 +67,6 @@ $(function() {
         }
 
         $('.playername').toArray().forEach(element => {
-            console.log($(element));
             if ($(element).hasClass(currPlayerId)) {
                 $(element).addClass('currentplayer');
             } else {
@@ -93,6 +93,15 @@ $(function() {
         var spudWords = data.spudText.split(" ");
         $('#word1').text(spudWords[spudWords.length - 1]);
         $('#word2').text('');
+    })
+
+    socket.on('start vote', function() {
+        console.log("starting vote");
+        if (game.currPlayer == game.me) {
+            $('#spudform').css('visibility', 'hidden');
+            return;
+        }
+        $('#voteform').css('visibility', 'visible');
     })
 
     /* * * * GAME TRIGGERS * * * */
@@ -147,6 +156,22 @@ $(function() {
         }
     });
 
+    $('#voteform').submit(function(e) {
+        /* Prevent page reloading */
+        e.preventDefault();
+    })
+
+    $('.vote-btn').on('click', function() {
+
+        /* Report vote to server */
+        if ($(this).hasClass('voteyes-btn')) socket.emit('vote', 'true');
+        else if ($(this).hasClass('voteno-btn')) socket.emit('vote', 'false');
+        else { return; }
+
+        /* Hide voteform */
+        $('#voteform').css("visibility", 'hidden');
+    })
+
 });
 
 function setPhase(phaseNum) {
@@ -156,7 +181,7 @@ function setPhase(phaseNum) {
     $('#phase' + phaseNum).show();
 
     /* Check if the Player is VIP, and toggle the UI appropriately */
-    console.log("me: " + game.me + " | vip: " + game.vip);
+    //console.log("me: " + game.me + " | vip: " + game.vip);
     checkVipUi();
 }
 

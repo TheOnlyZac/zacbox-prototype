@@ -119,16 +119,46 @@ io.on('connection', function(socket) {
     });
 
     socket.on('spud submit', function(spudText) {
-        game.addSpud(spudText, game.players[game.currentPlayer].color);
-        io.sockets.emit('spud add', {
-            'spudText': spudText,
+        io.sockets.emit('set word2', {
+            'text': spudText,
             'color': game.players[game.currentPlayer].color
-        })
-        turnOver();
+        });
+        io.sockets.emit('start vote');
+        game.startVote(pid, spudText);
+        //turnOver();
     });
 
     socket.on('pass turn', function() {
         turnOver();
+    });
+
+    socket.on('vote', function(vote) {
+        // record the incoming vote and check if the vote is done
+        if (game.setVote(pid, ((vote=='yes') || (vote=='true')))) {
+            // if the vote passed, add the spud to the game
+            if (game.voteTally >= 0) {
+                game.addSpud(game.currSpud, game.players[game.currentPlayer].color);
+                io.sockets.emit('spud add', {
+                    'spudText': game.currSpud,
+                    'color': game.players[game.currentPlayer].color
+                })
+            } else {
+                // send a new starting word to all clients
+                io.sockets.emit('spud add', {
+                    'spudText': game.randomWord,
+                    'color': 'white'
+                })
+            }
+            
+            // tell all clients to update the current player's score
+            io.sockets.emit('add score', {
+                'playerId': game.currPlayerId,
+                'score': game.voteTally
+            });
+
+            // end the current turn;
+            turnOver();
+        }
     });
 
     function turnOver() {

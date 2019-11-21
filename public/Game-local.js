@@ -4,6 +4,7 @@ class WordSpudGame {
         this._numPlayers = 0;
         this._vipId = null;
         this._myId = null;
+        this._currPlayer = null;
     }
 
     get players() { return this._players; }
@@ -14,6 +15,9 @@ class WordSpudGame {
 
     get me() { return this._myId; }
     set me(newId) { this._myId = newId; }
+
+    get currPlayer() { return this._currPlayer; }
+    set currPlayer(newId) { this._currPlayer = newId; }
 
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
