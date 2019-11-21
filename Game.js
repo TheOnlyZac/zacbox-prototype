@@ -7,6 +7,8 @@ class WordSpudGame {
         this._vipId = null;
         this._started = false;
         this._turnOrder = [];
+        this._currentPlayer = null;
+        this._wordSpud = [];
     }
 
     get colors() {
@@ -25,6 +27,8 @@ class WordSpudGame {
     get vip() { return this._vipId; }
     get started() { return this._started; }
     get turnOrder() { return this._turnOrder; }
+    get currentPlayer() { return this._currentPlayer; }
+    get wordSpud() { return this._wordSpud; }
 
     /* Add a Player to the _players obj */
     addPlayer(id, name = "Player" + this._numPlayers) {
@@ -109,13 +113,29 @@ class WordSpudGame {
 
     startGame() {
         console.log('game started!');
-
-        this._turnOrder = Array.from(this.playerIds);
-        this.shuffleArray(this._turnOrder);
-
         this._started = true;
     }
 
+    endGame() {
+        this._started = false;
+
+    }
+
+    nextPlayer() {
+        if (this._turnOrder.length == 0) {
+            this._turnOrder = Array.from(this.playerIds);
+            this.shuffleArray(this._turnOrder);
+        }
+        this._currentPlayer = this._turnOrder.pop();
+        console.log("Set current player to " + this._currentPlayer);
+    }
+
+    addSpud(word, color) {
+        this._wordSpud.push({
+            'word': word,
+            'color': color
+        })
+    }
 }
 
 module.exports = WordSpudGame;

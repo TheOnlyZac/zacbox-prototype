@@ -1,7 +1,7 @@
 game = new WordSpudGame();
 
 $(function() {
-    console.log("client initialized");
+    //console.log("client initialized");
     var socket = io();
     setPhase(0);
     $("#name").focus();
@@ -14,7 +14,7 @@ $(function() {
     });
 
     socket.on('add player', function(data) {
-        console.log("Received: add player | " + data.id);
+        //console.log("Received: add player | " + data.id);
         game.addPlayer(data.id, data.name, data.color);
 
         /* Add name to the Lobby players table */
@@ -22,11 +22,12 @@ $(function() {
         /* Add name to the In-game players table */
         var igName = $('#ingame-list').append("<td class='" + data.id + "'>" + data.name + "</td>");
         $('.' + data.id).addClass(data.color);
+        $('.' + data.id).addClass("playername");
  
     });
     
     socket.on('remove player', function(id) {
-        console.log("Received: remove player | " + id);
+        //console.log("Received: remove player | " + id);
         game.removePlayer(id);
 
         /* Remove name from the Phase 1 players table */
@@ -42,25 +43,54 @@ $(function() {
 
     /* Server trigger for new Phase to start */
     socket.on('set phase', function(phaseNum) {
-        console.log("Received: setPhase | " + phaseNum);
+        //console.log("Received: setPhase | " + phaseNum);
         setPhase(phaseNum);
     });
 
     /* Server will periodically send the VIP's ID in case it changes */
     socket.on('set vip', function(id) {
-        console.log("Received: set vip | " + id);
+        //console.log("Received: set vip | " + id);
         game.vip = id;
 
         /* Correct UI in case player just became VIP */
         checkVipUi();
     });
 
-    socket.on('your turn', function() {
-        $('#spudform').css('visibility', 'visible');
+    socket.on('your turn', function(currPlayerId) {
+        console.log("received: curr player is " + currPlayerId);
+        if (currPlayerId == game.me) {
+            $('#spudtb').val('');
+            $('#spudform').css('visibility', 'visible');
+        } else {
+            $('#spudform').css('visibility', 'hidden');
+        }
+
+        $('.playername').toArray().forEach(element => {
+            if ($(element).id == currPlayerId) {
+                $(element).css('font-size', ' 20px');
+            } else {
+                $(element).css('font-size', '15px');
+            }
+        });
     })
 
-    socket.on('echo text', function(newText) {
+    socket.on('set word1', function(newText) {
         $('#word2').text(newText);
+    })
+
+    socket.on('set word2', function(data) {
+        $('#word2').text(data.newText);
+        $('#word2').removeClass()
+        $('#word2').addClass('word')
+        $('#word2').addClass(data.color);
+
+    })
+
+    socket.on('spud add', function(data) {
+        $('#spud').append("<span class='" + data.color + "'>" + data.spudText + " </span>");
+        var spudWords = data.spudText.split(" ");
+        $('#word1').text(spudWords[spudWords.length - 1]);
+        $('#word2').text('');
     })
 
     /* * * * GAME TRIGGERS * * * */
@@ -101,6 +131,14 @@ $(function() {
 
     $('#spudtb').on('input', function() {
         socket.emit("live type", $('#spudtb').val());
+    })
+
+    $('#spudform').submit(function(e) {
+        /* Prevent page reloading */
+        e.preventDefault();
+
+        console.log("Spud form submitted");
+        socket.emit("spud submit", $('#spudtb').val());
     })
 
 });

@@ -37,11 +37,20 @@ io.on('connection', function(socket) {
         /* Remove the player from the Game lobby */
         game.removePlayer(pid);
 
+        if (io.sockets.connected.length == 0) {
+            game.endGame();
+            return;
+        }
+        
         /* Tell all clients to remove the disconnected player */
         io.sockets.emit('remove player', pid)
 
         /* Send the current VIP id to ALL players */
         io.sockets.emit('set vip', game.vip);
+
+        if (game.currentPlayer == pid) {
+            turnOver();
+        }
     });
 
     /* After player enters their name */
@@ -76,15 +85,33 @@ io.on('connection', function(socket) {
         game.startGame();
         io.sockets.emit('set phase', 2);
 
-        if (game.turnOrder.pop() == pid) {
-            socket.emit('your turn');
-        }
-
+        turnOver();
     });
 
     socket.on('live type', function(newText) {
-        io.sockets.emit('echo text', newText);
+        if (pid == game.currentPlayer) {
+            io.sockets.emit('set word2', {
+                'newText': newText,
+                'color': game.players[game.currentPlayer].color
+            });
+        }
     });
+
+    socket.on('spud submit', function(spudText) {
+        game.addSpud(spudText, game.players[game.currentPlayer].color);
+        io.sockets.emit('spud add', {
+            'spudText': spudText,
+            'color': game.players[game.currentPlayer].color
+        })
+        turnOver();
+    })
+
+    function turnOver() {
+        game.nextPlayer();
+        currPlayerId = game.currentPlayer;
+        console.log("currplayer: " + currPlayerId);
+        io.sockets.emit('your turn', currPlayerId);
+    }
 });
 
 /* Start listening on the provided port */

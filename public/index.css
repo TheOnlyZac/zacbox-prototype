@@ -196,7 +196,7 @@ button {
     padding: 0;
 }
 
-.players td {
+.players-list td {
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -217,16 +217,25 @@ button {
 #wordspud {
     margin-top: auto;
     margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    text-transform: lowercase;
 }
 
 .word {
     margin: 0;
     padding: 0;
     display: inline;
+    text-transform: lowercase;
 }
 
 #word1 {
     color: white;
+}
+
+#word2 {
+    word-wrap: break-word;
 }
 
 #spud {
