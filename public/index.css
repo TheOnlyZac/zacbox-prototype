@@ -196,13 +196,18 @@ button {
     padding: 0;
 }
 
+.players td {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 /* * * Name Colors * * */
 .red { color: red; }
 .orange { color: orange; }
 .yellow { color: yellow; }
-.green { color: green; }
-.blue { color: blue; }
-.purple { color: purple; }
+.green { color: rgb(0, 167, 0); }
+.blue { color: rgb(0, 183, 255); }
+.purple { color: rgb(201, 0, 201); }
 .violet { color: violet; }
 .aqua { color: aqua; }
 
