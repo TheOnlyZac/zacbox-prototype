@@ -3,7 +3,6 @@ game = new WordSpudGame();
 $(function() {
     //console.log("client initialized");
     var socket = io();
-    screen.orientation.lock("portrait");
     setPhase(0);
     $("#name").focus();
 
